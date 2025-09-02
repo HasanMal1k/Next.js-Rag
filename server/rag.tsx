@@ -3,6 +3,9 @@ import { Chroma } from "@langchain/community/vectorstores/chroma";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import docLoader from "./utils/document-loader";
 import { BM25Retriever } from "@langchain/community/retrievers/bm25";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
 
 // Step 1: Define embeddings
 const embeddings = new HuggingFaceInferenceEmbeddings({
@@ -65,3 +68,8 @@ async function hybridSearch(query: string, k = 5){
 
 }
 
+// Step 6: Now we have all the relevant docs and the query, we can send this to the LLM
+const model = new ChatGoogleGenerativeAI({
+  model: "gemini-2.0-flash",
+  apiKey: process.env.GEMINI_API_KEY,
+}); 
